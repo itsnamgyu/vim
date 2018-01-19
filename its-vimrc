@@ -1,0 +1,67 @@
+filetype plugin indent on
+
+set number
+set autoindent
+set smartindent
+
+set tabstop=4
+set shiftwidth=4
+set hlsearch
+set noexpandtab
+
+set viminfo='20,<1000,s1000
+set ruler
+
+colorscheme slate
+syntax on
+
+autocmd BufNewFile *.c :normal incStd
+autocmd BufWritePost *.c !gcc -o test_compile % ; rm test_compile
+autocmd BufWritePost *.py !flake8 %
+
+imap fj <Esc>
+noremap incStd i#include <stdio.h><cr><cr><esc>
+noremap include :call Include()<cr>
+noremap main iint main(void) {<enter>}<esc>Oreturn 0;<esc>O<esc>k:call StartAtNewLine()<cr>
+noremap newF :call NewFunction()<cr>
+noremap for :call For()<cr>
+noremap ] /}<cr>kA<cr>
+
+function PutA()
+	call feedkeys("a")
+endfunction
+
+function Include()
+	let lib = input("Enter the library you want to include: ")
+	execute "normal! mZG?#include\<cr>o#include " .lib. "\<esc>'Z"
+endfunction
+
+function CompileAndRun()
+	execute "normal! :w\<cr> :! gcc \%\<cr> :! ./a.out\<cr>"
+endfunction
+
+function StartAtNewLine()
+	call feedkeys("A")
+	call feedkeys("\<cr>")
+endfunction
+
+function NewFunction()
+	let functionString = input("Enter the function string: ")
+	execute "normal! G/main\<cr>O\<esc>O" . functionString . ";\<esc>Go\<cr>" . functionString . " {\<cr>}\<esc>k"
+	call StartAtNewLine()
+endfunction
+
+function For()
+	let counter = input("Enter counter: ")
+	let n = input("Enter limit: ")
+	execute "normal! ddOfor (int " .counter. " = 0; " .counter. " < " . n . "; ++" .counter. ") {\<cr>}\<esc>k"
+	call StartAtNewLine()
+endfunction
+
+" Disable theme background color
+hi Normal ctermbg=none
+
+" Return to last line when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
