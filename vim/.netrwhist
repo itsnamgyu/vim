@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/itsnamgyu/src/starting-price'
+let g:netrw_dirhist_2='/Users/itsnamgyu/.vim/plugin'
+let g:netrw_dirhist_3='/Users/itsnamgyu/.vim'

@@ -1,5 +1,31 @@
 filetype plugin indent on
 
+autocmd VimEnter * Goyo 120
+cnoreabbrev g Goyo
+
+function! s:goyo_enter()
+	set number
+	highlight LineNr ctermfg=234 ctermbg=None
+	let b:quitting = 0
+	let b:quitting_bang = 0
+	autocmd QuitPre <buffer> let b:quitting = 1
+	cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! s:goyo_leave()
+	" Quit Vim if this is the only remaining buffer
+	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+		if b:quitting_bang
+			qa!
+		else
+			qa
+		endif
+	endif
+endfunction
+
+autocmd! User GoyoEnter call <SID>goyo_enter()
+autocmd! User GoyoLeave call <SID>goyo_leave()
+
 set number
 set autoindent
 set smartindent
@@ -12,14 +38,14 @@ set noexpandtab
 set viminfo='20,<1000,s1000
 set ruler
 
-colorscheme slate
+colorscheme diablo3
 syntax on
 
 autocmd BufNewFile *.c :normal incStd
 autocmd BufWritePost *.c !gcc -o test_compile % ; rm test_compile
 autocmd BufWritePost *.py !flake8 %
 
-imap fj <Esc>
+noremap! fj <Esc>
 noremap incStd i#include <stdio.h><cr><cr><esc>
 noremap include :call Include()<cr>
 noremap main iint main(void) {<enter>}<esc>Oreturn 0;<esc>O<esc>k:call StartAtNewLine()<cr>
