@@ -43,7 +43,8 @@ syntax on
 
 autocmd BufNewFile *.c :normal incStd
 autocmd BufWritePost *.c !gcc -o test_compile % ; rm test_compile
-autocmd BufWritePost *.py !flake8 --max-line-length 120 %
+
+command Flake !flake8 --max-line-length 120 %
 
 noremap! fj <Esc>
 noremap incStd i#include <stdio.h><cr><cr><esc>
