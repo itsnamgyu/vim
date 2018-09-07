@@ -54,6 +54,11 @@ noremap newF :call NewFunction()<cr>
 noremap for :call For()<cr>
 noremap ] /}<cr>kA<cr>
 
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 function PutA()
 	call feedkeys("a")
 endfunction
