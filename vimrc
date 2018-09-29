@@ -1,30 +1,32 @@
 filetype plugin indent on
 
-autocmd VimEnter * Goyo 120
-cnoreabbrev g Goyo
+" Auto goyo
+au VimEnter * Goyo 120
+" Goyo resize on window resize
+au VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+" Return to last line
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
-function! s:goyo_enter()
+function! Goyo_enter()
 	set number
-	highlight LineNr ctermfg=234 ctermbg=None
 	let b:quitting = 0
 	let b:quitting_bang = 0
 	autocmd QuitPre <buffer> let b:quitting = 1
 	cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+	if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endfunction
 
-function! s:goyo_leave()
-	" Quit Vim if this is the only remaining buffer
-	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-		if b:quitting_bang
-			qa!
-		else
-			qa
-		endif
-	endif
+ca wq :w<cr>:call Quit()<cr>
+ca q :call Quit()<cr>
+function! Quit()
+    if exists('#goyo')
+        Goyo
+    endif
+    quit
 endfunction
 
-autocmd! User GoyoEnter call <SID>goyo_enter()
-autocmd! User GoyoLeave call <SID>goyo_leave()
+cnoreabbrev go Goyo
+autocmd! User GoyoEnter call Goyo_enter()
 
 set number
 set autoindent
@@ -91,9 +93,13 @@ function For()
 endfunction
 
 " Disable theme background color
-hi Normal ctermbg=none
+hi! Normal ctermbg=none
+hi! LineNr ctermfg=234 ctermbg=None
+hi! SignColumn ctermbg=none
+" Remove tilde [~]
+hi! EndOfBuffer ctermbg=none ctermfg=black
+hi! NonText ctermbg=none ctermfg=black
 
-" Return to last line when reopening a file
+" Remember last location in file
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
