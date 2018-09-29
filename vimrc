@@ -94,8 +94,12 @@ endfunction
 
 " Disable theme background color
 hi! Normal ctermbg=none
-hi! LineNr ctermfg=234 ctermbg=None
+hi! LineNr ctermfg=239 ctermbg=None
 hi! SignColumn ctermbg=none
 " Remove tilde [~]
 hi! EndOfBuffer ctermbg=none ctermfg=black
 hi! NonText ctermbg=none ctermfg=black
+
+" Remember last location in file
+if has("autocmd")
+endif
