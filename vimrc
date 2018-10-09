@@ -103,3 +103,11 @@ hi! NonText ctermbg=none ctermfg=black
 " Remember last location in file
 if has("autocmd")
 endif
+
+" Vim scrolling on iterm2
+set mouse=a
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
