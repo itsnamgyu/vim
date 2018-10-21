@@ -1,3 +1,5 @@
+touch ~/.vimrc
+
 mv ~/.vimrc ~/.vimrc.bck
 cat vimrc > ~/.vimrc
 
