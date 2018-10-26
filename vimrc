@@ -16,13 +16,23 @@ function! Goyo_enter()
 	if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endfunction
 
+" Patch to support return to last lien w/ goyo
 ca wq :w<cr>:call Quit()<cr>
 ca q :call Quit()<cr>
-function! Quit()
+ca qq :call ForceQuit()<cr>
+
+function Quit()
     if exists('#goyo')
         Goyo
     endif
     quit
+endfunction
+
+function ForceQuit()
+    if exists('#goyo')
+        Goyo
+    endif
+    quit!
 endfunction
 
 cnoreabbrev go Goyo
