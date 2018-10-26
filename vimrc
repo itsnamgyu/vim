@@ -59,6 +59,7 @@ autocmd BufWritePost *.c !gcc -o test_compile % ; rm test_compile
 command Flake !flake8 --max-line-length 120 %
 
 noremap! fj <Esc>
+noremap! jf <Esc>
 noremap incStd i#include <stdio.h><cr><cr><esc>
 noremap include :call Include()<cr>
 noremap main iint main(void) {<enter>}<esc>Oreturn 0;<esc>O<esc>k:call StartAtNewLine()<cr>
