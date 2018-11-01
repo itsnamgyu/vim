@@ -18,8 +18,8 @@ endfunction
 
 " Patch to support return to last lien w/ goyo
 ca wq :w<cr>:call Quit()<cr>
-ca q :call Quit()<cr>
-ca qq :call ForceQuit()<cr>
+au VimEnter * call CmdAlias('q', 'call Quit()')
+au VimEnter * call CmdAlias('Q', 'call ForceQuit()')
 
 function Quit()
     if exists('#goyo')
