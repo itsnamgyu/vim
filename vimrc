@@ -46,8 +46,6 @@ set tabstop=4
 set shiftwidth=4
 set hlsearch
 set noexpandtab
-" align arguments in C
-set cino+=(0
 
 set viminfo='20,<1000,s1000
 set ruler
