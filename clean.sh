@@ -1,2 +1,3 @@
-rm -rf `pwd`
+DIR=$(pwd)
 cd ..
+rm -rf $DIR
